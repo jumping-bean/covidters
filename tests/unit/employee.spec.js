@@ -1,6 +1,5 @@
 import { shallowMount } from '@vue/test-utils'
-import HelloWorld from '@/components/HelloWorld.vue'
-import Employee from '../../src/app/model/employee'
+import { Employee } from '../../src/model/employee'
 
 describe('Employee.vue',()=>{
     it('converts date object to html date picker value',()=>{
@@ -25,7 +24,7 @@ describe('Employee.vue',()=>{
           employee.shutFrom.setYear(2020);
 
           let strFrom = employee.getShutdownFromAsString(true);
-          expect(strFrom).toEqual("01-jan-2020");
+          expect(strFrom).toEqual("01-Jan-2020");
 
   })
 })
@@ -84,7 +83,7 @@ describe('Employee.vue',()=>{
 describe('Employee.vue',()=>{
   it('empty constructor should reuslt in a valid employee with default value',()=>{
           let employee = new Employee();
-          expect(employee.shutdownTo).toEqual("30-apr-2020");
+          expect(employee.shutdownTo).toEqual("30-Apr-2020");
   })
 })
 
@@ -94,8 +93,7 @@ describe('Employee.vue',()=>{
   it('shutdownFrom/shutdownTo property format to be valid',()=>{
           let employee = new Employee(1,'000000/3',new Date('2020-04-01'),new Date('2020-04-30'),'Demo');
           //expect(employee.shutdownFrom).toEqual("01-apr-2020");
-          expect(employee.shutdownTo).toEqual("30-apr-2020");
+          expect(employee.shutdownTo).toEqual("30-Apr-2020");
   })
 })
-
 

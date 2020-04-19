@@ -6,15 +6,10 @@ Vue.use(VueRouter)
 
   const routes = [
     {
-      path: '/',
+      path: '/app.html',
       name: 'Main',
       component: Main              
   },
-  {
-    path: '/ters',
-    name: 'ters',
-    component: Main              
-}
 ]
 
 const router = new VueRouter({

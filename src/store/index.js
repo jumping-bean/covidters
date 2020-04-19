@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import Employee from '../model/employee';
+import { Employee } from '../model/employee';
 import createPersistedState from "vuex-persistedstate";
 import SecureLS from "secure-ls";
 
@@ -22,12 +22,39 @@ export default new Vuex.Store({
         getItem: key => ls.get(key),
         setItem: (key, value) => ls.set(key, value),
         removeItem: key => ls.remove(key)
+      },
+      rehydrated :(store)=>{
+         store.state.data = store.state.data.map(emp=>{
+           let tmpEmp = new Employee(emp.id);
+           Object.assign(tmpEmp,emp);
+           return tmpEmp;
+         })
       }
     })
   ],
   mutations: {
-    addEmployee(state, employee) {
-      state.data.push(employee);
+    addEmployee(state) {
+      let maxId = Math.max.apply(
+        Math,
+          state.data.map(function(emp) {
+          return emp.id;
+        })
+      );
+      if (maxId == Number.NEGATIVE_INFINITY){
+        maxId=0;
+      }
+      let emp = new Employee(maxId + 1);
+      if (state.data.length>0){
+        let latest = state.data[state.data.length-1];
+        emp.uifRef = latest.uifRef;
+        emp.tradingName = latest.tradingName;
+        emp.shutFrom = latest.shutFrom;
+        emp.shutTo = latest.shutTo
+        emp.emailAddress = latest.emailAddress.substring(latest.emailAddress.indexOf("@"));
+        emp.payeNumber = latest.payeNumber;
+      }
+      state.data.push(emp);      
+      state.data.selected =emp;
     },
     changeCurrentSelected(state, employee) {
       if (employee) {
@@ -46,8 +73,7 @@ export default new Vuex.Store({
       }
     },
     removeEmployee(state,employee){
-      console.log(employee.id);
-      let index = state.data.findIndex(elm =>{ console.log(elm.id); return elm.id === employee.id});
+      let index = state.data.findIndex((elm)=>{elm.id === employee.id});
       if (index!=-1){
         state.data.splice(index,1);
       }

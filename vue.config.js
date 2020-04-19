@@ -1,24 +1,25 @@
 const path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
-    outputDir: "/app",
-    publicPath: "/app",
-    configureWebpack: {
-    resolve: {
-      alias: {
-        '@': __dirname + '/src/app'
-      }
-    },
-    entry: {
-      app: './src/app/main.js'
-    }
+  outputDir: "./dist",
+  //indexPath: "app.html",
+  publicPath: "./",
+  configureWebpack: (config) => {
+    config.plugins.unshift(
+      new CopyWebpackPlugin(
+        [{ from: path.join(__dirname, '/static'), to: path.join(__dirname, '/dist'), toType: "dir" }]
+      ));
   },
-  chainWebpack: (config) => {
-    config
-      .plugin('html')
-      .tap((opts) => {
-            opts[0].template= path.resolve('public/app/index.html');
-            return opts;
-      });
-  },
+  chainWebpack: config => {
+    config.plugin('copy').tap((args) => {
+      args[0][0].ignore = ['.DS_Store'];
+      return args;
+    });
+    config.plugin('html').tap((args) => {
+      args[0].template = path.join(__dirname, '/public/app.html');
+      args[0].filename = 'app.html';
+      return args;
+    });
+  }
 }
