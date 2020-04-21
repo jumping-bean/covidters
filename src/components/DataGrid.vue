@@ -9,25 +9,24 @@
       ></b-pagination>
       <div class="ml-2 badge badge-primary" style="width:320px;">Total: {{rows}}</div>
       <b-form-select :options="pagePerRowPresets" v-model="perPage" class="ml-2"></b-form-select>
-      <b-form-select :options="pagePerRowPresets" v-model="perPage" class="ml-2"></b-form-select>
       <b-form-input
         class="ml-2"
         type="text"
         v-model="filterString"
         placeholder="Enter your search criteria"
       ></b-form-input>
-      <b-icon-search class="ml-2 mt-1"></b-icon-search>
+      <b-icon-search class="ml-2"></b-icon-search>
       <div>
-        <div v-if="isDataValid" style="width:300px;">
-          <a @click="downloadCSV" href="#">
-            | Export to CSV
-            <b-icon-search class="ml-2 mt-2"></b-icon-search>
+        <div v-if="isDataValid" class="ml-2" style="width:300px;"> |
+          <a  class="mx-2" @click="downloadCSV" href="#">
+             Export to CSV
+            <b-icon-file-earmark-arrow-down class="mx-2 mt-2"></b-icon-file-earmark-arrow-down>
           </a>
         </div>
-        <div v-else style="width:300px;">
-          <a @click="downloadCSV" class="mx-2" href="javascript: void(0)" style="color:red;">
-            | Export to CSV
-            <b-icon-search class="mx-2 mt-2"></b-icon-search>
+        <div v-else  class="ml-2" style="width:300px;"> |
+          <a  @click="downloadCSV" class="mx-2" href="javascript: void(0)" style="color:red;">
+             Export to CSV
+            <b-icon-file-earmark-arrow-down class="mx-2 mt-2"></b-icon-file-earmark-arrow-down>
           </a>
         </div>
       </div>
@@ -59,7 +58,7 @@
   </div>
 </template>
 <script>
-import { BIconTrash, BIconSearch } from "bootstrap-vue";
+import { BIconTrash, BIconSearch, BIconFileEarmarkArrowDown } from "bootstrap-vue";
 import { ValidateEmployeeUtil } from "../model/employee";
 
 export default {
@@ -177,7 +176,8 @@ export default {
   },
   components: {
     BIconTrash,
-    BIconSearch
+    BIconSearch,
+    BIconFileEarmarkArrowDown
   },
   methods: {
     onRowSelected(employees) {
